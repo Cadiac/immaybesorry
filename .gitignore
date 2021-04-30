@@ -3,3 +3,6 @@ venv
 .env
 *.session
 immaybesorry
+__pycache__
+bot.db
+.vscode/

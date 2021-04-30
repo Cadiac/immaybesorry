@@ -1,1 +1,1 @@
-web: python imneversorry.py
+web: python -m imneversorry
