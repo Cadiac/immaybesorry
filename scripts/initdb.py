@@ -1,6 +1,8 @@
 import sqlite3 as sq
 
 def initdb(db='bot.db'):
+    print("Starting to initialize database.")
+
     conn = sq.connect(db)
     conn.execute("PRAGMA foreign_keys = ON")
     conn.execute("PRAGMA encoding='UTF-8'")
@@ -105,3 +107,5 @@ def initdb(db='bot.db'):
 
     conn.commit()
     conn.close()
+
+    print("Done, database initialized!")

@@ -10,6 +10,35 @@ from ..imneversorry import Imneversorry
 rips = db.readRips()
 waiting_rip = {}
 
+def isNewRip(message):
+    user_id = message.from_user.id
+    chat_id = message.chat.id
+
+    key = str(user_id) + str(chat_id)
+    if key in waiting_rip:
+        return True
+    else:
+        return message.caption is not None and ('newrip' in message.caption or 'delrip' in message.caption)
+
+def saveRip(client: Client, chat_id: int, user_id: int, type: str, data: str):
+    if chat_id not in rips:
+        rips[chat_id] = set()
+    elif (type, data) in rips[chat_id]:
+        client.send_message(chat_id=chat_id, text='Already in rips')
+    else:
+        rips[chat_id].add((type, data))
+        db.addRip(type, data, chat_id, user_id)
+
+def removeRip(client: Client, chat_id: int, type: str, data: str):
+    if chat_id not in rips:
+        rips[chat_id] = set()
+        client.send_message(chat_id=chat_id, text="Couldn't find rip")
+    elif (type, data) not in rips[chat_id]:
+        client.send_message(chat_id=chat_id, text="Couldn't find rip")
+    else:
+        rips[chat_id].remove((type, data))
+        db.delRip((type, data))
+
 
 @Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.command("newrip"))
 def newripHandler(client: Client, message: Message):
@@ -25,13 +54,7 @@ def newripHandler(client: Client, message: Message):
     type = 'text'
     data = ' '.join(message.command[1:])
 
-    if chat_id not in rips:
-        rips[chat_id] = set()
-    elif (type, data) in rips[chat_id]:
-        client.send_message(chat_id=chat_id, text='Already in rips')
-    else:
-        rips[chat_id].add((type, data))
-        db.addRip(type, data, chat_id, user_id)
+    saveRip(client, chat_id, user_id, type, data)
 
 
 @Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.command("delrip"))
@@ -45,16 +68,10 @@ def delripHandler(client: Client, message: Message):
         client.send_message(chat_id=chat_id, text='Usage: /delrip <ripname> or forward mediafile for delete')
         return
 
-    rip = 'text', ' '.join(message.command[1:])
+    type = 'text'
+    data = ' '.join(message.command[1:])
 
-    if chat_id not in rips:
-        rips[chat_id] = set()
-        client.send_message(chat_id=chat_id, text="Couldn't find rip")
-    elif rip not in rips[chat_id]:
-        client.send_message(chat_id=chat_id, text="Couldn't find rip")
-    else:
-        rips[chat_id].remove(rip)
-        db.delRip(rip)
+    removeRip(client, chat_id, type, data)
 
 
 @Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.command("rips"))
@@ -82,16 +99,6 @@ def ripHandler(client: Client, message: Message):
         client.send_message(chat_id=chat_id, text=f"rip in {rip}")
     else:
         print("riptype not implemented")
-
-def isNewRip(message):
-    user_id = message.from_user.id
-    chat_id = message.chat.id
-
-    key = str(user_id) + str(chat_id)
-    if key in waiting_rip:
-        return True
-    else:
-        return message.caption is not None and ('newrip' in message.caption or 'delrip' in message.caption)
 
 @Imneversorry.on_message(filters.chat(Imneversorry.chats))
 def messageHandler(client: Client, message: Message):
@@ -122,23 +129,10 @@ def messageHandler(client: Client, message: Message):
                 type, data = rip
 
                 if waiting_rip[key] == 'newrip':
-                    if chat_id not in rips:
-                        rips[chat_id] = set()
-                    elif rip in rips[chat_id]:
-                        client.send_message(chat_id=chat_id, text='Already in rips')
-                    else:
-                        rips[chat_id].add(rip)
-                        db.addRip(type, data, chat_id, user_id)
+                    saveRip(client, chat_id, user_id, type, data)
 
                 elif waiting_rip[key] == 'delrip':
-                    if chat_id not in rips:
-                        rips[chat_id] = set()
-                        client.send_message(chat_id=chat_id, text="Couldn't find rip")
-                    elif rip not in rips[chat_id]:
-                        client.send_message(chat_id=chat_id, text="Couldn't find rip")
-                    else:
-                        rips[chat_id].remove(rip)
-                        db.delRip(rip)
+                    removeRip(client, chat_id, type, data)
 
             waiting_rip.pop(key)
 
@@ -146,20 +140,7 @@ def messageHandler(client: Client, message: Message):
             type, data = rip
 
             if 'newrip' in message.caption:
-                if chat_id not in rips:
-                    rips[chat_id] = set()
-                elif rip in rips[chat_id]:
-                    client.send_message(chat_id=chat_id, text='Already in rips')
-                else:
-                    rips[chat_id].add(rip)
-                    db.addRip(type, data, chat_id, user_id)
+                saveRip(client, chat_id, user_id, type, data)
 
             elif 'delrip' in message.caption:
-                if chat_id not in rips:
-                    rips[chat_id] = set()
-                    client.send_message(chat_id=chat_id, text="Couldn't find rip")
-                elif rip not in rips[chat_id]:
-                    client.send_message(chat_id=chat_id, text="Couldn't find rip")
-                else:
-                    rips[chat_id].remove(rip)
-                    db.delRip(rip)
+                removeRip(client, chat_id, type, data)
