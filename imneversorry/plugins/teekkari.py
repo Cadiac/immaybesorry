@@ -211,6 +211,7 @@ def TUNI_handler(client: Client, message: Message):
                 return
 
 
+# TODO: emojis broken? use pyrogram.emoji?
 @Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.regex("horoskoop", re.IGNORECASE))
 def horoskooppi_handler(client: Client, message: Message):
     now = datetime.datetime.now()

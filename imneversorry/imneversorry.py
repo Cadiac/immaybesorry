@@ -26,7 +26,7 @@ class Imneversorry(Client):
             workers=16,
             plugins=dict(
                 root=f"{name}.plugins",
-                exclude=["foobar"]
+                exclude=[]
             ),
             sleep_threshold=180
         )
