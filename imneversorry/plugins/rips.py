@@ -1,8 +1,7 @@
 import re
 import random
-import sqlite3 as sq
 
-from pyrogram import Client, filters, emoji
+from pyrogram import Client, filters
 from pyrogram.types import Message
 from ..utils import db
 from ..imneversorry import Imneversorry
@@ -158,18 +157,18 @@ def rip_handler(client: Client, message: Message):
         client.send_audio(chat_id=chat_id, audio=data, caption='rip in')
     elif type == "document":
         client.send_document(chat_id=chat_id, document=data, caption='rip in')
-    elif type == "location":
-        loc = data.split(',')
-        reply_to = client.send_message(chat_id=chat_id, text="rip in")
-        client.send_location(chat_id=chat_id, longitude=float(loc[0]), latitude=float(loc[1]), reply_to_message_id=reply_to.message_id)
-    elif type == "sticker":
-        reply_to = client.send_message(chat_id=chat_id, text="rip in")
-        client.send_sticker(chat_id=chat_id, sticker=data, reply_to_message_id=reply_to.message_id)
     elif type == "animation":
         client.send_animation(chat_id=chat_id, animation=data, caption='rip in')
+    elif type == "location":
+        loc = data.split(',')
+        client.send_message(chat_id=chat_id, text="rip in")
+        client.send_location(chat_id=chat_id, longitude=float(loc[0]), latitude=float(loc[1]))
+    elif type == "sticker":
+        client.send_message(chat_id=chat_id, text="rip in")
+        client.send_sticker(chat_id=chat_id, sticker=data)
     elif type == "video_note":
-        reply_to = client.send_message(chat_id=chat_id, text="rip in")
-        client.send_video_note(chat_id=chat_id, video_note=data, reply_to_message_id=reply_to.message_id)
+        client.send_message(chat_id=chat_id, text="rip in")
+        client.send_video_note(chat_id=chat_id, video_note=data)
     else:
         print(f"[ERROR]: riptype {type} not supported, pls fix")
 

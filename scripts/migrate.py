@@ -98,6 +98,13 @@ def migrate():
 
     fs.close()
 
+    fs = open('resources/sanat.txt', 'r')
+
+    for line in fs.read().splitlines():
+        c.execute("INSERT OR IGNORE INTO Sana(sana) values(?)", (line,))
+
+    fs.close()
+
     conn.commit()
 
     print("[INFO]: Done, database migrated!")
