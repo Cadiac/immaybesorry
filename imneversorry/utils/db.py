@@ -16,18 +16,18 @@ def cursor():
         conn.close()
 
 
-def addRip(type, rip, channel, creator):
+def add_rip(type, rip, channel, creator):
     with cursor() as cur:
         date = dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         cur.execute('INSERT INTO Rip values(?, ?, ?, ?, ?)',
         (rip, type, date, channel, creator))
 
-def delRip(delrip):
+def del_rip(delrip):
     with cursor() as cur:
         cur.execute('DELETE FROM Rip WHERE type = ? and rip = ?', (delrip))
 
 
-def readRips():
+def read_rips():
     with cursor() as cur:
         cur.execute('SELECT type, rip, channel from Rip')
         rows = cur.fetchall()
@@ -39,30 +39,30 @@ def readRips():
             data[channel].add((type, rip))
         return data
 
-def readViisaudet():
+def read_viisaudet():
     with cursor() as cur:
         cur.execute('SELECT viisaus from Viisaus')
         rows = cur.fetchall()
         return set(rows)
 
-def readSanat():
+def read_sanat():
     with cursor() as cur:
         cur.execute('SELECT sana from Sana')
         rows = cur.fetchall()
         return set(rows)
 
-def upsertOppi(keyword, definition, channel, creator):
+def upsert_oppi(keyword, definition, channel, creator):
     with cursor() as cur:
         date = dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         cur.execute('INSERT OR REPLACE INTO Oppi values(?, ?, ?, ?, ?)',
         (keyword, definition, date, channel, creator))
 
-def findOppi(keyword, channel):
+def find_oppi(keyword, channel):
     with cursor() as cur:
         cur.execute('SELECT definition FROM Oppi WHERE keyword=? and channel=?', (keyword, channel))
         return cur.fetchone()
 
-def searchOppi(keyword, user, channels):
+def search_oppi(keyword, user, channels):
     search = '%' + keyword + '%'
     results = []
     for channel in channels:
@@ -81,29 +81,29 @@ def searchOppi(keyword, user, channels):
         output.append((item[0], opis[item[0]]))
     return output
 
-def getChannels():
+def get_channels():
     with cursor() as cur:
         cur.execute('SELECT DISTINCT channel FROM Oppi')
         return [item[0] for item in cur.fetchall()]
 
-def countOpis(channel):
+def count_opis(channel):
     with cursor() as cur:
         cur.execute('SELECT COUNT(*) AS count FROM Oppi WHERE channel=?', (channel,))
         count = cur.fetchone()
         return count
 
-def randomOppi(channel):
+def random_oppi(channel):
     with cursor() as cur:
         cur.execute('SELECT keyword, definition FROM Oppi WHERE channel=? ORDER BY RANDOM() LIMIT 1', (channel,))
         return cur.fetchone()
 
-def insertQuote(quote, quotee, channel, creator):
+def insert_quote(quote, quotee, channel, creator):
     with cursor() as cur:
         date = dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         cur.execute('INSERT INTO Quote values(?, ?, ?, ?, ?)',
         (quote, quotee, date, channel, creator))
 
-def findQuotes(channel, quotee=None):
+def find_quotes(channel, quotee=None):
     with cursor() as cur:
         if quotee is not None:
             cur.execute('SELECT quote, quotee FROM Quote WHERE channel=? AND upper(quotee) = upper(?)', (channel, quotee))
@@ -112,108 +112,108 @@ def findQuotes(channel, quotee=None):
             cur.execute('SELECT quote, quotee FROM Quote WHERE channel=?', (channel,))
             return cur.fetchall()
 
-def countQuotes(channel):
+def count_quotes(channel):
     with cursor() as cur:
         cur.execute('SELECT count(quote) FROM Quote WHERE channel=?', (channel,))
         return cur.fetchone()[0]
 
-def readDiagnoosit():
+def read_diagnoosit():
     with cursor() as cur:
         cur.execute('SELECT diagnoosi from Diagnoosi')
         rows = cur.fetchall()
         return set(rows)
 
-def readMaidot():
+def read_maidot():
     with cursor() as cur:
         cur.execute('SELECT maito from Maito')
         rows = cur.fetchall()
         return set(rows)
 
-def readNimet():
+def read_nimet():
     with cursor() as cur:
         cur.execute('SELECT nimi from Nimi')
         rows = cur.fetchall()
         return set(rows)
 
-def readKalat():
+def read_kalat():
     with cursor() as cur:
         cur.execute('SELECT kala from Kalat')
         rows = cur.fetchall()
         return set(rows)
 
-def readVihanneet():
+def read_vihanneet():
     with cursor() as cur:
         cur.execute('SELECT nimi from Vihannes')
         rows = cur.fetchall()
         return set(rows)
 
-def readPlanetoidit():
+def read_planetoidit():
     with cursor() as cur:
         cur.execute('SELECT nimi from Planetoidi')
         rows = cur.fetchall()
         return set(rows)
 
-def readKulkuneuvot():
+def read_kulkuneuvot():
     with cursor() as cur:
         cur.execute('SELECT nimi from Kulkuneuvo')
         rows = cur.fetchall()
         return set(rows)
 
-def readLinnut():
+def read_linnut():
     with cursor() as cur:
         cur.execute('SELECT nimi from Linnut')
         rows = cur.fetchall()
         return set(rows)
 
-def readSotilasarvot():
+def read_sotilasarvot():
     with cursor() as cur:
         cur.execute('SELECT nimi from Arvonimet')
         rows = cur.fetchall()
         return set(rows)
 
-def readSotilasnimet():
+def read_sotilasnimet():
     with cursor() as cur:
         cur.execute('SELECT nimi from Sotilasnimet')
         rows = cur.fetchall()
         return set(rows)
 
-def readEnnustukset():
+def read_ennustukset():
     with cursor() as cur:
         cur.execute('SELECT rivi from Ennustus')
         rows = cur.fetchall()
         return set(rows)
 
-def readNakutukset():
+def read_nakutukset():
     with cursor() as cur:
         cur.execute('SELECT nakutus from Nakutukset')
         rows = cur.fetchall()
         return set(rows)
 
-def readDefinitions(channel):
+def read_definitions(channel):
     with cursor() as cur:
         cur.execute('SELECT definition, keyword from Oppi where channel=?', (channel, ))
         rows = cur.fetchall()
         return rows
 
-def upsertTag(tag, target, channel, creator):
+def upsert_tag(tag, target, channel, creator):
     with cursor() as cur:
         date = dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         cur.execute('INSERT OR REPLACE INTO Tagit values(?, ?, ?, ?, ?)',
         (tag, target, channel, creator, date))
 
-def findTagged(tag, channel):
+def find_tagged(tag, channel):
     with cursor() as cur:
         cur.execute('SELECT target FROM Tagit WHERE tag=? and channel=?', (tag, channel))
         rows = cur.fetchall()
         return rows
 
-def findTargetTags(target, channel):
+def find_target_tags(target, channel):
     with cursor() as cur:
         cur.execute('SELECT tag FROM Tagit WHERE target=? and channel=?', (target, channel))
         rows = cur.fetchall()
         return rows
 
-def addUrheilu(uid, chatid, km, lajinnimi, date):
+def add_urheilu(uid, chatid, km, lajinnimi, date):
     with cursor() as cur:
         query = ("INSERT INTO Urheilut (uid, chatid, km, type, date) VALUES (?, ?, ?, "
                     "(SELECT l.id FROM Urheilulajit AS l WHERE l.nimi = ?), ?)")
@@ -221,7 +221,7 @@ def addUrheilu(uid, chatid, km, lajinnimi, date):
 
         cur.execute(query, params)
 
-def getKayttajanUrheilut(uid, chatid, earliest_date):
+def get_kayttajan_urheilut(uid, chatid, earliest_date):
     with cursor() as cur:
         query = ("SELECT up.lajinnimi AS lajinnimi, SUM(up.km) AS km, SUM(up.pisteet) AS pisteet "
                      "FROM UrheilutPisteilla AS up "
@@ -232,7 +232,7 @@ def getKayttajanUrheilut(uid, chatid, earliest_date):
         cur.execute(query, params)
         return cur.fetchall()
 
-def getTopUrheilut(chatid, lajinnimi, earliest_date, limit):
+def get_top_urheilut(chatid, lajinnimi, earliest_date, limit):
     with cursor() as cur:
         query = ("SELECT uid, km from (SELECT up.uid AS uid, SUM(up.km) AS km "
                      "FROM UrheilutPisteilla AS up "
@@ -244,7 +244,7 @@ def getTopUrheilut(chatid, lajinnimi, earliest_date, limit):
         cur.execute(query, params)
         return cur.fetchall()
 
-def getPisteet(chatid, earliest_date, limit):
+def get_pisteet(chatid, earliest_date, limit):
     with cursor() as cur:
         query = ("SELECT uid, pisteet from (SELECT up.uid AS uid, SUM(up.pisteet) AS pisteet "
                      "FROM UrheilutPisteilla AS up "
@@ -256,7 +256,7 @@ def getPisteet(chatid, earliest_date, limit):
         cur.execute(query, params)
         return cur.fetchall()
 
-def lisaaUrheilulaji(nimi, kerroin):
+def lisaa_urheilulaji(nimi, kerroin):
     with cursor() as cur:
         cur.execute("INSERT INTO Urheilulajit (nimi, kerroin) VALUES (?, ?) ON CONFLICT (nimi) DO UPDATE SET kerroin = ?",
             (nimi, kerroin, kerroin))

@@ -40,11 +40,11 @@ class Imneversorry(Client):
         await super().start()
 
         me = await self.get_me()
-        print(f"Imneversorry using Pyrogram v{__version__} (Layer {layer}) started on @{me.username}. hyy-vä")
+        print(f"[INFO]: Imneversorry using Pyrogram v{__version__} (Layer {layer}) started on @{me.username}. hyy-vä")
 
     async def stop(self, *args):
         await super().stop()
-        print("Imneversorry stopped. tapan sut")
+        print("[INFO]: Imneversorry stopped. tapan sut")
 
     def is_admin(self, message) -> bool:
         user_id = message.from_user.id

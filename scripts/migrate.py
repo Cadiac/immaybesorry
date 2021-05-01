@@ -2,7 +2,7 @@ import sqlite3 as sq
 import initdb
 
 def migrate():
-    print("Starting to migrate database.")
+    print("[INFO]: Starting to migrate database.")
 
     conn = sq.connect('bot.db')
     c = conn.cursor()
@@ -100,7 +100,7 @@ def migrate():
 
     conn.commit()
 
-    print("Done, database migrated!")
+    print("[INFO]: Done, database migrated!")
 
 initdb.initdb()
 migrate()
