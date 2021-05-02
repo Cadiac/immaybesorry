@@ -21,7 +21,8 @@ $ python -m imneversorry.py
 - [X] kilometri.py
 - [ ] mainari.py
 - [x] oppija.py
-- [ ] quote.py
+- [x] quote.py
 - [ ] tagaaja.py
 - [ ] tirsk.py
 - [ ] Inline /opi search
+- [ ] Refactor database usage at quote.py
