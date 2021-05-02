@@ -15,6 +15,11 @@ class Imneversorry(Client):
     TELEGRAM_API_ID = int(os.environ.get('TELEGRAM_API_ID'))
     TELEGRAM_API_HASH = os.environ.get('TELEGRAM_API_HASH')
     TELEGRAM_USERNAME = os.environ.get('TELEGRAM_USERNAME')
+    STICKERS = {
+        "jep": "CAADBAADJgADiR7LDbglwFauETpzFgQ",
+        "ei käy": "CAADBAADPwADiR7LDV1aPNns0V1YFgQ",
+        "onnea": "CAADBAADuAADQAGFCMDNfgtXUw0QFgQ"
+    }
 
     def __init__(self):
         name = self.__class__.__name__.lower()

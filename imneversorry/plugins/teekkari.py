@@ -24,11 +24,6 @@ URLS = {
     "sukunimi": "https://fi.wiktionary.org/wiki/Toiminnot:Satunnainen_kohde_luokasta/Luokka:Suomen_kielen_sukunimet"
 }
 
-STICKERS = {
-    "jep": "CAADBAADJgADiR7LDbglwFauETpzFgQ",
-    "ei käy": "CAADBAADPwADiR7LDV1aPNns0V1YFgQ"
-}
-
 viisaudet = db.read_viisaudet()
 sanat = db.read_sanat()
 diagnoosit = db.read_diagnoosit()
@@ -105,12 +100,12 @@ def hakemus_handler(client: Client, message: Message):
 
     if random.randint(0, 9) == 0:
         if random.randint(0, 200) == 0:
-            client.send_sticker(chat_id=chat_id, sticker=STICKERS["jep"])
+            client.send_sticker(chat_id=chat_id, sticker=Imneversorry.STICKERS["jep"])
         else:
             client.send_message(chat_id=chat_id, text=txtHyyva)
     else:
         if random.randint(0, 1000) == 0:
-            client.send_sticker(chat_id=chat_id, sticker=STICKERS["ei käy"])
+            client.send_sticker(chat_id=chat_id, sticker=Imneversorry.STICKERS["ei käy"])
         elif random.randint(0, 600) == 0:
             client.send_message(chat_id=chat_id, text=txtTapanKaikki)
         else:

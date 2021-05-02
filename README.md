@@ -20,7 +20,8 @@ $ python -m imneversorry.py
 - [x] valitsin.py
 - [X] kilometri.py
 - [ ] mainari.py
-- [ ] oppija.py
+- [x] oppija.py
 - [ ] quote.py
 - [ ] tagaaja.py
 - [ ] tirsk.py
+- [ ] Inline /opi search
