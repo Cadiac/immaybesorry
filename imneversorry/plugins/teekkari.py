@@ -47,8 +47,8 @@ nakutukset = db.read_nakutukset()
 last_vitun = {}
 last_pottiin = {}
 
-# Integrations
 
+# Integrations
 
 def fetch_urbaani():
     webpage = urllib.request.urlopen(

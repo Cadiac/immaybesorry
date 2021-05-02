@@ -221,7 +221,7 @@ def add_urheilu(uid, chatid, km, lajinnimi, date):
 
         cur.execute(query, params)
 
-def get_kayttajan_urheilut(uid, chatid, earliest_date):
+def get_user_urheilut(uid, chatid, earliest_date):
     with cursor() as cur:
         query = ("SELECT up.lajinnimi AS lajinnimi, SUM(up.km) AS km, SUM(up.pisteet) AS pisteet "
                      "FROM UrheilutPisteilla AS up "
@@ -256,7 +256,7 @@ def get_pisteet(chatid, earliest_date, limit):
         cur.execute(query, params)
         return cur.fetchall()
 
-def lisaa_urheilulaji(nimi, kerroin):
+def add_urheilulaji(nimi, kerroin):
     with cursor() as cur:
         cur.execute("INSERT INTO Urheilulajit (nimi, kerroin) VALUES (?, ?) ON CONFLICT (nimi) DO UPDATE SET kerroin = ?",
             (nimi, kerroin, kerroin))
