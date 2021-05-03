@@ -209,7 +209,7 @@ def find_tagged(tag, channel):
 
 def find_target_tags(target, channel):
     with cursor() as cur:
-        cur.execute('SELECT tag FROM Tagit WHERE target=? and channel=?', (target, channel))
+        cur.execute('SELECT tag FROM Tagit WHERE upper(target) = upper(?) and channel=?', (target, channel))
         rows = cur.fetchall()
         return rows
 

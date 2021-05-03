@@ -37,9 +37,11 @@ class Imneversorry(Client):
         )
 
         self.admins = [Imneversorry.CREATOR_ID]
-
         self.uptime_reference = time.monotonic_ns()
         self.start_datetime = datetime.utcnow()
+
+        self.set_parse_mode("markdown")
+
 
     async def start(self):
         await super().start()

@@ -80,7 +80,7 @@ def vittuilu_handler(client: Client, message: Message):
             chat_id=chat_id, text=f"vittuilu{random.sample(sanat, 1)[0][0]}")
 
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & (filters.regex("hakemus", re.IGNORECASE)) | filters.regex("hacemus", re.IGNORECASE) | filters.regex("hakemsu", re.IGNORECASE))
+@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.regex("hakemus|hacemus|hakemsu", re.IGNORECASE))
 def hakemus_handler(client: Client, message: Message):
     chat_id = message.chat.id
 

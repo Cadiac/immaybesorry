@@ -53,10 +53,7 @@ def invert_string_list(list):
 correct_oppi = {}
 
 # Matches messages in formats "?? something" and "¿¿ something"
-# pylint: disable=anomalous-backslash-in-string
-
-
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.text & (filters.regex("^(\?\?)\s(\S+)$") | filters.regex("^(\¿\¿)\s(\S+)$")))
+@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.text & (filters.regex(r"^(\?\?)\s(\S+)$") | filters.regex(r"^(\¿\¿)\s(\S+)$")))
 def define_opi_handler(client: Client, message: Message):
     chat_id = message.chat.id
 
@@ -106,7 +103,7 @@ def opis_count_handler(client: Client, message: Message):
 
 
 # Matches message "?!" or "¡¿"
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.text & (filters.regex("^(\?\!)$") | filters.regex("^(\¡\¿)$")))
+@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.text & (filters.regex(r"^(\?\!)$") | filters.regex(r"^(\¡\¿)$")))
 def random_opi_handler(client: Client, message: Message):
     chat_id = message.chat.id
     inverted = re.match(r"^(\¡\¿)$", message.text) is not None
@@ -172,17 +169,5 @@ def arvaa_handler(client: Client, message: Message):
             client.send_sticker(
                 chat_id=chat_id, sticker=Imneversorry.STICKERS["onnea"])
 
-
-rigged = filters.create(lambda _, __, ___: random.randint(1, 50) == 1)
-
-
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.text & filters.regex("^.+\?$") & rigged)
-def neuroverkko_handler(client: Client, message: Message):
-    client.send_message(
-        chat_id=message.chat.id,
-        text=((lambda _, __: _(_, __))(
-            lambda _, __: chr(__ % 256) + _(_, __ // 256) if __ else "",
-            random.sample([3041605, 779117898, 17466, 272452313416, 7022364615740061032, 2360793474633670572049331836447094], 1)[0]))
-    )
 
 # TODO: Implement Separate bot to handle inline queries?

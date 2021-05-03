@@ -22,7 +22,8 @@ $ python -m imneversorry.py
 - [ ] mainari.py
 - [x] oppija.py
 - [x] quote.py
-- [ ] tagaaja.py
-- [ ] tirsk.py
+- [x] tagaaja.py
+- [x] tirsk.py
 - [ ] Inline /opi search
 - [ ] Refactor database usage at quote.py
+- [ ] ebin
