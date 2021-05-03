@@ -1,3 +1,4 @@
+import re
 import random
 
 from pyrogram import Client, filters
@@ -23,3 +24,9 @@ def tirsk_handler(client: Client, message: Message):
     chat_id = message.chat.id
     client.send_message(chat_id=chat_id, text=random.choice(("tirsk", "Tirsk", "tirsk :D", "(tirsk)", "[tirsk]")))
 
+
+@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.text & filters.regex(r"\beb\S*"))
+def ebin_handler(client: Client, message: Message):
+    chat_id = message.chat.id
+    jebin = "j" + re.search(r"\beb\S*", message.text).group(0)
+    client.send_message(chat_id=chat_id, text=jebin)

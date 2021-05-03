@@ -26,4 +26,5 @@ $ python -m imneversorry.py
 - [x] tirsk.py
 - [ ] Inline /opi search
 - [ ] Refactor database usage at quote.py
-- [ ] ebin
+- [ ] TEK/TUNI handler regex match
+- [x] ebin
