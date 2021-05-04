@@ -22,7 +22,8 @@ def neuroverkko_handler(client: Client, message: Message):
 @Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.text & tirsk)
 def tirsk_handler(client: Client, message: Message):
     chat_id = message.chat.id
-    client.send_message(chat_id=chat_id, text=random.choice(("tirsk", "Tirsk", "tirsk :D", "(tirsk)", "[tirsk]")))
+    client.send_message(chat_id=chat_id, text=random.choice(
+        ("tirsk", "Tirsk", "tirsk :D", "(tirsk)", "[tirsk]")))
 
 
 @Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.text & filters.regex(r"\beb\S*"))

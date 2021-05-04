@@ -100,12 +100,14 @@ def hakemus_handler(client: Client, message: Message):
 
     if random.randint(0, 9) == 0:
         if random.randint(0, 200) == 0:
-            client.send_sticker(chat_id=chat_id, sticker=Imneversorry.STICKERS["jep"])
+            client.send_sticker(
+                chat_id=chat_id, sticker=Imneversorry.STICKERS["jep"])
         else:
             client.send_message(chat_id=chat_id, text=txtHyyva)
     else:
         if random.randint(0, 1000) == 0:
-            client.send_sticker(chat_id=chat_id, sticker=Imneversorry.STICKERS["ei käy"])
+            client.send_sticker(
+                chat_id=chat_id, sticker=Imneversorry.STICKERS["ei käy"])
         elif random.randint(0, 600) == 0:
             client.send_message(chat_id=chat_id, text=txtTapanKaikki)
         else:

@@ -9,6 +9,7 @@ from ..imneversorry import Imneversorry
 rips = db.read_rips()
 waiting_rip = {}
 
+
 def is_newrip_or_delrip(message):
     user_id = message.from_user.id
     chat_id = message.chat.id
@@ -49,7 +50,8 @@ def newrip_handler(client: Client, message: Message):
     if len(message.command) == 1:
         key = str(user_id) + str(chat_id)
         waiting_rip[key] = "newrip"
-        client.send_message(chat_id=chat_id, text="Usage: /newrip <ripmessage> or send mediafile for newrip")
+        client.send_message(
+            chat_id=chat_id, text="Usage: /newrip <ripmessage> or send mediafile for newrip")
         return
 
     type = "text"
@@ -66,7 +68,8 @@ def delrip_handler(client: Client, message: Message):
     if len(message.command) == 1:
         key = str(user_id) + str(chat_id)
         waiting_rip[key] = "delrip"
-        client.send_message(chat_id=chat_id, text="Usage: /delrip <ripname> or forward mediafile for delete")
+        client.send_message(
+            chat_id=chat_id, text="Usage: /delrip <ripname> or forward mediafile for delete")
         return
 
     type = "text"
@@ -158,11 +161,13 @@ def rip_handler(client: Client, message: Message):
     elif type == "document":
         client.send_document(chat_id=chat_id, document=data, caption='rip in')
     elif type == "animation":
-        client.send_animation(chat_id=chat_id, animation=data, caption='rip in')
+        client.send_animation(
+            chat_id=chat_id, animation=data, caption='rip in')
     elif type == "location":
         loc = data.split(',')
         client.send_message(chat_id=chat_id, text="rip in")
-        client.send_location(chat_id=chat_id, longitude=float(loc[0]), latitude=float(loc[1]))
+        client.send_location(chat_id=chat_id, longitude=float(
+            loc[0]), latitude=float(loc[1]))
     elif type == "sticker":
         client.send_message(chat_id=chat_id, text="rip in")
         client.send_sticker(chat_id=chat_id, sticker=data)
@@ -171,4 +176,3 @@ def rip_handler(client: Client, message: Message):
         client.send_video_note(chat_id=chat_id, video_note=data)
     else:
         print(f"[ERROR]: riptype {type} not supported, pls fix")
-
