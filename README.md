@@ -8,7 +8,8 @@ $ cd immaybesorry
 
 $ python -m venv immaybesorry
 $ pip install -r requirements.txt
-$ python scripts/migrate.py
+$ sqlite3 bot.db < sql/00-init.sql
+$ python scripts/seed.py
 
 $ python -m imneversorry.py
 ```
@@ -27,4 +28,7 @@ $ python -m imneversorry.py
 - [ ] Inline /opi search
 - [ ] Refactor database usage at quote.py
 - [ ] TEK/TUNI handler regex match
+- [ ] Creating session on server
 - [x] ebin
+- [ ] newrip stale file_ids
+- [ ] better migration scripts

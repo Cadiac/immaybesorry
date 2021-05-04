@@ -4,5 +4,5 @@ venv
 *.session
 immaybesorry
 __pycache__
-bot.db
+*.db
 .vscode/
