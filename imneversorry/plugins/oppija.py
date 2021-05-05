@@ -55,7 +55,7 @@ correct_oppi = {}
 # Matches messages in formats "?? something" and "¿¿ something"
 
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.text & (filters.regex(r"^(\?\?)\s(\S+)$") | filters.regex(r"^(\¿\¿)\s(\S+)$")))
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.text & (filters.regex(r"^(\?\?)\s(\S+)$") | filters.regex(r"^(\¿\¿)\s(\S+)$")))
 def define_opi_handler(client: Client, message: Message):
     chat_id = message.chat.id
 
@@ -82,7 +82,7 @@ def define_opi_handler(client: Client, message: Message):
         client.send_message(chat_id=chat_id, text=no_idea)
 
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.text & filters.command("opi"))
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.text & filters.command("opi"))
 def opi_handler(client: Client, message: Message):
     chat_id = message.chat.id
     username = message.from_user.username
@@ -97,7 +97,7 @@ def opi_handler(client: Client, message: Message):
     db.upsert_oppi(keyword, definition, chat_id, username)
 
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.text & filters.command("opis"))
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.text & filters.command("opis"))
 def opis_count_handler(client: Client, message: Message):
     chat_id = message.chat.id
     result = db.count_opis(chat_id)
@@ -105,7 +105,7 @@ def opis_count_handler(client: Client, message: Message):
 
 
 # Matches message "?!" or "¡¿"
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.text & (filters.regex(r"^(\?\!)$") | filters.regex(r"^(\¡\¿)$")))
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.text & (filters.regex(r"^(\?\!)$") | filters.regex(r"^(\¡\¿)$")))
 def random_opi_handler(client: Client, message: Message):
     chat_id = message.chat.id
     inverted = re.match(r"^(\¡\¿)$", message.text) is not None
@@ -120,7 +120,7 @@ def random_opi_handler(client: Client, message: Message):
         client.send_message(chat_id=chat_id, text=f"{opi[0]}: {opi[1]}")
 
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.text & filters.command("jokotai"))
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.text & filters.command("jokotai"))
 def jokotai_handler(client: Client, message: Message):
     chat_id = message.chat.id
 
@@ -138,7 +138,7 @@ def jokotai_handler(client: Client, message: Message):
         chat_id=chat_id, text=f"{maximal_rigging}: {definition and definition[0]}")
 
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.text & filters.command("alias"))
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.text & filters.command("alias"))
 def alias_handler(client: Client, message: Message):
     chat_id = message.chat.id
 
@@ -158,7 +158,7 @@ def alias_handler(client: Client, message: Message):
                             text="Edellinen alias on vielä käynnissä! Selitys oli: \"{}\"?".format(correct_oppi[chat_id][0]))
 
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.text & filters.command("arvaa"))
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.text & filters.command("arvaa"))
 def arvaa_handler(client: Client, message: Message):
     chat_id = message.chat.id
     if chat_id not in correct_oppi:

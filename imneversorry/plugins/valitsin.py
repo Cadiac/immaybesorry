@@ -12,7 +12,7 @@ vai_filter = filters.create(lambda _, __, update: set(
     update.text.lower().split()[1::2]) == {'vai'})
 
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.text & vai_filter)
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.text & vai_filter)
 def vai_handler(client: Client, message: Message):
     now = datetime.datetime.now()
     alternatives = message.text.split()[::2]
@@ -38,7 +38,7 @@ def vai_handler(client: Client, message: Message):
                             text=rigged.choice(alternatives))
 
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.regex("^onko pakko .+$", re.IGNORECASE))
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.regex("^onko pakko .+$", re.IGNORECASE))
 def onko_pakko_handler(client: Client, message: Message):
     now = datetime.datetime.now()
 

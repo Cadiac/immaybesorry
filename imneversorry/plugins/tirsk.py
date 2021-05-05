@@ -9,7 +9,7 @@ tirsk = filters.create(lambda _, __, ___: random.randint(1, 10000) == 1)
 rigged = filters.create(lambda _, __, ___: random.randint(1, 50) == 1)
 
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.text & filters.regex(r"^.+\?$") & rigged)
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.text & filters.regex(r"^.+\?$") & rigged)
 def neuroverkko_handler(client: Client, message: Message):
     client.send_message(
         chat_id=message.chat.id,
@@ -19,14 +19,14 @@ def neuroverkko_handler(client: Client, message: Message):
     )
 
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.text & tirsk)
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.text & tirsk)
 def tirsk_handler(client: Client, message: Message):
     chat_id = message.chat.id
     client.send_message(chat_id=chat_id, text=random.choice(
         ("tirsk", "Tirsk", "tirsk :D", "(tirsk)", "[tirsk]")))
 
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.text & filters.regex(r"\beb\S*"))
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.text & filters.regex(r"\beb\S*"))
 def ebin_handler(client: Client, message: Message):
     chat_id = message.chat.id
     jebin = "j" + re.search(r"\beb\S*", message.text).group(0)

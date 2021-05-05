@@ -6,7 +6,7 @@ from ..imneversorry import Imneversorry
 from ..utils import db
 
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.text & filters.command("addq"))
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.text & filters.command("addq"))
 def add_quote_handler(client: Client, message: Message):
     chat_id = message.chat.id
     if len(message.command) < 3:
@@ -20,7 +20,7 @@ def add_quote_handler(client: Client, message: Message):
         db.insert_quote(quote, quotee, chat_id, message.from_user.username)
 
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.text & filters.command("quotes"))
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.text & filters.command("quotes"))
 def quotes_count_handler(client: Client, message: Message):
     chat_id = message.chat.id
     if len(message.command) == 1:
@@ -34,7 +34,7 @@ def quotes_count_handler(client: Client, message: Message):
     client.send_message(chat_id=chat_id, text=str(count) + ' quotes')
 
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.text & filters.command("quote"))
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.text & filters.command("quote"))
 def user_quote_handler(client: Client, message: Message):
     chat_id = message.chat.id
     if len(message.command) == 1:

@@ -42,7 +42,7 @@ def remove_rip(client: Client, chat_id: int, type: str, data: str):
         db.del_rip((type, data))
 
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.command("newrip") & filters.text)
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.command("newrip") & filters.text)
 def newrip_handler(client: Client, message: Message):
     user_id = message.from_user.id
     chat_id = message.chat.id
@@ -60,7 +60,7 @@ def newrip_handler(client: Client, message: Message):
     save_rip(client, chat_id, user_id, type, data)
 
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.command("delrip") & filters.text)
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.command("delrip") & filters.text)
 def delrip_handler(client: Client, message: Message):
     user_id = message.from_user.id
     chat_id = message.chat.id
@@ -78,7 +78,7 @@ def delrip_handler(client: Client, message: Message):
     remove_rip(client, chat_id, type, data)
 
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.command("rips"))
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.command("rips"))
 def rips_count_handler(client: Client, message: Message):
     chat_id = message.chat.id
     if chat_id not in rips:
@@ -86,7 +86,7 @@ def rips_count_handler(client: Client, message: Message):
     client.send_message(chat_id=chat_id, text=f"{len(rips[chat_id])} rips")
 
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & ~filters.text)
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & ~filters.text)
 def waiting_rip_handler(client: Client, message: Message):
     user_id = message.from_user.id
     chat_id = message.chat.id
@@ -135,7 +135,7 @@ def waiting_rip_handler(client: Client, message: Message):
                 remove_rip(client, chat_id, type, data)
 
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.regex("rip", re.IGNORECASE))
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.regex("rip", re.IGNORECASE))
 def rip_handler(client: Client, message: Message):
     chat_id = message.chat.id
 

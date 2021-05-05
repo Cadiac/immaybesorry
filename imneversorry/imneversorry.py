@@ -1,16 +1,14 @@
-import time
-from datetime import datetime
-import os
-from configparser import ConfigParser
-
-from pyrogram import Client, filters
-from pyrogram import __version__
-from pyrogram.raw.all import layer
 from pyrogram.types import Message
+from pyrogram.raw.all import layer
+from pyrogram import __version__
+from pyrogram import Client, filters
+import time
+import os
+from datetime import datetime
 
 
 class Imneversorry(Client):
-    chats = [-270475963]
+    whitelist = [-270475963]
 
     CREATOR_ID = os.environ.get('CREATOR_ID')
     TELEGRAM_API_ID = int(os.environ.get('TELEGRAM_API_ID'))
@@ -32,7 +30,7 @@ class Imneversorry(Client):
             workers=16,
             plugins=dict(
                 root=f"{name}.plugins",
-                exclude=[]
+                exclude=["logging"]
             ),
             sleep_threshold=180
         )

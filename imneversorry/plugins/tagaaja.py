@@ -8,7 +8,7 @@ from ..imneversorry import Imneversorry
 from ..utils import db
 
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.text & filters.command("tag"))
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.text & filters.command("tag"))
 def add_tag_handler(client: Client, message: Message):
     chat_id = message.chat.id
 
@@ -21,7 +21,7 @@ def add_tag_handler(client: Client, message: Message):
     db.upsert_tag(tag, target, chat_id, message.from_user.username)
 
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.text & filters.command("tagged"))
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.text & filters.command("tagged"))
 def tagged_search_handler(client: Client, message: Message):
     chat_id = message.chat.id
 
@@ -37,7 +37,7 @@ def tagged_search_handler(client: Client, message: Message):
                         text=f'Tagged as "{tag}": {", ".join(tagged)}')
 
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.text & filters.command("tags"))
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.text & filters.command("tags"))
 def tag_target_search_handler(client: Client, message: Message):
     chat_id = message.chat.id
 

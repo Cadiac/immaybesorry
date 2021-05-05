@@ -184,51 +184,51 @@ kilometri = Kilometri()
 # COMMAND handlers
 
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.command("pisteet"))
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.command("pisteet"))
 def pisteet_handler(client: Client, message: Message):
     kilometri.pisteet_handler(client, message)
 
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.command("kmstats"))
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.command("kmstats"))
 def kmstats_handler(client: Client, message: Message):
     kilometri.kmstats_handler(client, message)
 
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.command("kavely"))
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.command("kavely"))
 def kavely_handler(client: Client, message: Message):
     kilometri.laji_handler(client, message, "kavely")
 
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.command("kavelyt"))
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.command("kavelyt"))
 def kavelyt_handler(client: Client, message: Message):
     kilometri.laji_stats_handler(client, message, "kavely")
 
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.command("juoksu"))
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.command("juoksu"))
 def juoksu_handler(client: Client, message: Message):
     kilometri.laji_handler(client, message, "juoksu")
 
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.command("juoksut"))
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.command("juoksut"))
 def juoksut_handler(client: Client, message: Message):
     kilometri.laji_stats_handler(client, message, "juoksu")
 
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.command("pyoraily"))
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.command("pyoraily"))
 def pyoraily_handler(client: Client, message: Message):
     kilometri.laji_handler(client, message, "pyoraily")
 
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.command("pyorailyt"))
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.command("pyorailyt"))
 def pyorailyt_handler(client: Client, message: Message):
     kilometri.laji_stats_handler(client, message, "pyoraily")
 
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.command("hiihto"))
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.command("hiihto"))
 def hiihto_handler(client: Client, message: Message):
     kilometri.laji_handler(client, message, "hiihto")
 
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.command("hiihdot"))
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.command("hiihdot"))
 def hiihdot_handler(client: Client, message: Message):
     kilometri.laji_stats_handler(client, message, "hiihto")

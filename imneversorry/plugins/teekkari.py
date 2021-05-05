@@ -70,7 +70,7 @@ def fetch_slango():
 
 # REGEX handlers
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.regex("vittuilu", re.IGNORECASE))
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.regex("vittuilu", re.IGNORECASE))
 def vittuilu_handler(client: Client, message: Message):
     chat_id = message.chat.id
     if random.randint(0, 4) == 0:
@@ -80,7 +80,7 @@ def vittuilu_handler(client: Client, message: Message):
             chat_id=chat_id, text=f"vittuilu{random.sample(sanat, 1)[0][0]}")
 
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.regex("hakemus|hacemus|hakemsu", re.IGNORECASE))
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.regex("hakemus|hacemus|hakemsu", re.IGNORECASE))
 def hakemus_handler(client: Client, message: Message):
     chat_id = message.chat.id
 
@@ -114,13 +114,13 @@ def hakemus_handler(client: Client, message: Message):
             client.send_message(chat_id=chat_id, text=txtTapanSut)
 
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.regex("viisaus", re.IGNORECASE))
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.regex("viisaus", re.IGNORECASE))
 def viisaus_handler(client: Client, message: Message):
     client.send_message(chat_id=message.chat.id,
                         text=random.sample(viisaudet, 1)[0][0])
 
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.regex("vituttaa", re.IGNORECASE))
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.regex("vituttaa", re.IGNORECASE))
 def vitutus_handler(client: Client, message: Message):
     r = requests.get(URLS["vituttaa"])
     url = urllib.parse.unquote_plus(r.url).split('/')
@@ -128,13 +128,13 @@ def vitutus_handler(client: Client, message: Message):
     client.send_message(chat_id=message.chat.id, text=vitutus)
 
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.regex("diagno", re.IGNORECASE))
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.regex("diagno", re.IGNORECASE))
 def diagnoosi_handler(client: Client, message: Message):
     client.send_message(chat_id=message.chat.id,
                         text=random.sample(diagnoosit, 1)[0][0])
 
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.regex("nakuttaa", re.IGNORECASE))
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.regex("nakuttaa", re.IGNORECASE))
 def nakuttaa_handler(client: Client, message: Message):
     if random.randint(0, 100) == 0:
         client.send_message(chat_id=message.chat.id,
@@ -144,24 +144,24 @@ def nakuttaa_handler(client: Client, message: Message):
                             text=random.sample(nakutukset, 1)[0][0] + " vaa")
 
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.regex("^halo", re.IGNORECASE))
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.regex("^halo", re.IGNORECASE))
 def halo_handler(client: Client, message: Message):
     client.send_message(chat_id=message.chat.id,
                         text=random.choice(['Halo', 'Halo?', 'Halo?!']))
 
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.regex("^noppa", re.IGNORECASE))
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.regex("^noppa", re.IGNORECASE))
 def noppa_handler(client: Client, message: Message):
     client.send_dice(chat_id=message.chat.id)
     client.send_dice(chat_id=message.chat.id)
 
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.regex("^vaihdan", re.IGNORECASE))
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.regex("^vaihdan", re.IGNORECASE))
 def vaihdan_handler(client: Client, message: Message):
     client.send_dice(chat_id=message.chat.id)
 
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.regex("^vitun", re.IGNORECASE))
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.regex("^vitun", re.IGNORECASE))
 def vitun_handler(client: Client, message: Message):
     user_id = message.from_user.id
     chat_id = message.chat.id
@@ -173,7 +173,7 @@ def vitun_handler(client: Client, message: Message):
             chat_id=chat_id, text=f"{fetch_urbaani().capitalize()} vitun {fetch_urbaani()}")
 
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.regex("^mikä vitun ", re.IGNORECASE))
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.regex("^mikä vitun ", re.IGNORECASE))
 def mika_vitun_handler(client: Client, message: Message):
     word = message.text[11:].lower().replace(
         ' ', '-').replace('ä', 'a').replace('ö', 'o').replace('å', 'a')
@@ -182,13 +182,13 @@ def mika_vitun_handler(client: Client, message: Message):
                         text=fetch_urbaani_selitys(word))
 
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.regex("^helveten", re.IGNORECASE))
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.regex("^helveten", re.IGNORECASE))
 def helveten_handler(client: Client, message: Message):
     client.send_message(chat_id=message.chat.id,
                         text=fetch_slango().capitalize() + ' jävla ' + fetch_slango().lower())
 
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.regex(".*[tT]ek.*", re.IGNORECASE))
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.regex(".*[tT]ek.*", re.IGNORECASE))
 def TEK_handler(client: Client, message: Message):
     if random.randint(0, 50) == 0:
         for word in message.text.lower().split(' '):
@@ -198,7 +198,7 @@ def TEK_handler(client: Client, message: Message):
                 return
 
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.regex(".*[tT]uni.*", re.IGNORECASE))
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.regex(".*[tT]uni.*", re.IGNORECASE))
 def TUNI_handler(client: Client, message: Message):
     if random.randint(0, 50) == 0:
         for word in message.text.lower().split(' '):
@@ -209,7 +209,7 @@ def TUNI_handler(client: Client, message: Message):
 
 
 # TODO: emojis broken? use pyrogram.emoji?
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.regex("horoskoop", re.IGNORECASE))
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.regex("horoskoop", re.IGNORECASE))
 def horoskooppi_handler(client: Client, message: Message):
     now = datetime.datetime.now()
     data = [
@@ -241,7 +241,7 @@ def horoskooppi_handler(client: Client, message: Message):
     client.send_message(chat_id=message.chat.id, text=ennustus)
 
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.regex("uutine", re.IGNORECASE))
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.regex("uutine", re.IGNORECASE))
 def uutine_handler(client: Client, message: Message):
     uutineet = [[], []]
 
@@ -264,7 +264,7 @@ def uutine_handler(client: Client, message: Message):
 
 # COMMAND handlers
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.command("sukunimi"))
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.command("sukunimi"))
 def sukunimi_handler(client: Client, message: Message):
     r = requests.get(URLS["sukunimi"])
     url = urllib.parse.unquote_plus(r.url).split('/')
@@ -272,14 +272,14 @@ def sukunimi_handler(client: Client, message: Message):
     client.send_message(chat_id=message.chat.id, text=vitutus)
 
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.command("maitonimi"))
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.command("maitonimi"))
 def maitonimi_handler(client: Client, message: Message):
     maitoNimi = random.sample(
         maidot, 1)[0][0] + "-" + random.sample(nimet, 1)[0][0]
     client.send_message(chat_id=message.chat.id, text=maitoNimi)
 
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.command("lintuslanginimi"))
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.command("lintuslanginimi"))
 def lintunimi_handler(client: Client, message: Message):
     lintu = random.sample(linnut, 1)[0][0]
     lintu = re.sub(r'nen$', 's', lintu)
@@ -287,13 +287,13 @@ def lintunimi_handler(client: Client, message: Message):
     client.send_message(chat_id=message.chat.id, text=lintuNimi)
 
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.command("kalanimi"))
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.command("kalanimi"))
 def kalanimi_handler(client: Client, message: Message):
     client.send_message(chat_id=message.chat.id,
                         text=random.sample(kalat, 1)[0][0])
 
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.command("kurkkumoponimi"))
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.command("kurkkumoponimi"))
 def moponimi_handler(client: Client, message: Message):
     kurkku = random.sample(vihanneet, 1)[0][0]
     mopo = random.sample(kulkuneuvot, 1)[0][0]
@@ -303,7 +303,7 @@ def moponimi_handler(client: Client, message: Message):
     client.send_message(chat_id=message.chat.id, text=mopoNimi)
 
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.command("sotanimi"))
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.command("sotanimi"))
 def sotanimi_handler(client: Client, message: Message):
     arvo = random.sample(sotilasarvot, 1)[0][0]
     nimi = random.sample(sotilasnimet, 1)[0][0]
@@ -317,18 +317,18 @@ def sotanimi_handler(client: Client, message: Message):
     client.send_message(chat_id=message.chat.id, text=sotaNimi)
 
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.command("pizza"))
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.command("pizza"))
 def pizza_handler(client: Client, message: Message):
     client.send_message(chat_id=message.chat.id, text='Ananas kuuluu pizzaan!')
 
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.command("vaalikone"))
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.command("vaalikone"))
 def vaalikone_handler(client: Client, message: Message):
     client.send_message(chat_id=message.chat.id,
                         text=f"Äänestä: {str(random.randint(1,424) + 1)}")
 
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.command("pottiin"))
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.command("pottiin"))
 def pottiin_handler(client: Client, message: Message):
     now = datetime.datetime.now().date()
     user_id = message.from_user.id
@@ -341,7 +341,7 @@ def pottiin_handler(client: Client, message: Message):
         client.send_message(chat_id=message.chat.id, text=msg)
 
 
-@Imneversorry.on_message(filters.chat(Imneversorry.chats) & filters.command("addsikulla"))
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.command("addsikulla"))
 def ban_hammer(client: Client, message: Message):
     chat_id = message.chat.id
     user_id = message.from_user.id
