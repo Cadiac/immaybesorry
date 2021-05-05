@@ -31,3 +31,8 @@ def ebin_handler(client: Client, message: Message):
     chat_id = message.chat.id
     jebin = "j" + re.search(r"\beb\S*", message.text).group(0)
     client.send_message(chat_id=chat_id, text=jebin)
+
+
+@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.bot)
+def bot_handler(client: Client, message: Message):
+    print("saw bot message")
