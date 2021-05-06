@@ -9,14 +9,7 @@ from pyrogram import __version__
 from pyrogram import Client, filters
 
 from datetime import datetime
-
-
-# Enable pyrogram logging
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s [%(levelname)s] %(message)s",
-    datefmt="%Y-%m-%dT%H:%M:%S%z"
-)
+from imneversorry.config import Config
 
 logger = logging.getLogger('imneversorry')
 
@@ -24,32 +17,21 @@ logger = logging.getLogger('imneversorry')
 class Imneversorry(Client):
     whitelist = [-270475963]
 
-    CREATOR_ID = os.environ.get('CREATOR_ID')
-    TELEGRAM_API_ID = int(os.environ.get('TELEGRAM_API_ID'))
-    TELEGRAM_API_HASH = os.environ.get('TELEGRAM_API_HASH')
-    TELEGRAM_USERNAME = os.environ.get('TELEGRAM_USERNAME')
-    STICKERS = {
-        "jep": "CAADBAADJgADiR7LDbglwFauETpzFgQ",
-        "ei käy": "CAADBAADPwADiR7LDV1aPNns0V1YFgQ",
-        "onnea": "CAADBAADuAADQAGFCMDNfgtXUw0QFgQ"
-    }
-
     def __init__(self):
         name = self.__class__.__name__.lower()
 
         super().__init__(
-            Imneversorry.TELEGRAM_USERNAME,
-            api_id=Imneversorry.TELEGRAM_API_ID,
-            api_hash=Imneversorry.TELEGRAM_API_HASH,
-            workers=16,
+            Config.TELEGRAM_SESSION_STR,
+            api_id=Config.TELEGRAM_API_ID,
+            api_hash=Config.TELEGRAM_API_HASH,
             plugins=dict(
                 root=f"{name}.plugins",
                 exclude=[]
             ),
-            sleep_threshold=180
+            sleep_threshold=Config.SLEEP_THRESHOLD
         )
 
-        self.admins = [Imneversorry.CREATOR_ID]
+        self.admins = [Config.CREATOR_ID]
         self.uptime_reference = time.monotonic_ns()
         self.start_datetime = datetime.utcnow()
 
@@ -63,12 +45,12 @@ class Imneversorry(Client):
         await super().start()
 
         me = await self.get_me()
-        print(
-            f"[INFO]: Imneversorry using Pyrogram v{__version__} (Layer {layer}) started on @{me.username}. hyy-vä")
+        logger.info(
+            f"Imneversorry using Pyrogram v{__version__} (Layer {layer}) started on @{me.username}. hyy-vä")
 
     async def stop(self, *args):
         await super().stop()
-        print("[INFO]: Imneversorry stopped. tapan sut")
+        logger.info("Imneversorry stopped. tapan sut")
 
     def is_admin(self, message: Message) -> bool:
         user_id = message.from_user.id
