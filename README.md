@@ -17,7 +17,7 @@ $ sqlite3 bot.db < sql/00-init.sql
 $ python scripts/create_new_session.py
 $ python scripts/seed.py
 
-$ python -m imneversorry.py
+$ python -m imneversorry
 ```
 
 [Environment variables](https://devcenter.heroku.com/articles/node-best-practices#be-environmentally-aware) are used to configure this bot.

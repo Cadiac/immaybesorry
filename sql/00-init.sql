@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS Rip(
     created date,
     channel integer not null,
     creator text,
+    message_id integer,
     primary key (rip, channel)
 );
 

@@ -35,7 +35,6 @@ class Imneversorry(Client):
         self.uptime_reference = time.monotonic_ns()
         self.start_datetime = datetime.utcnow()
 
-        self.set_parse_mode("markdown")
         # Ignore all bot messages and stop their propagation
         self.add_handler(MessageHandler(self.ignore_message, filters.bot))
         self.add_handler(MessageHandler(
@@ -43,10 +42,10 @@ class Imneversorry(Client):
 
     async def start(self):
         await super().start()
-
         me = await self.get_me()
         logger.info(
             f"Imneversorry using Pyrogram v{__version__} (Layer {layer}) started on @{me.username}. hyy-vä")
+        self.set_parse_mode("markdown")
 
     async def stop(self, *args):
         await super().stop()
