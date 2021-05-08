@@ -36,7 +36,8 @@ class Imneversorry(Client):
         self.start_datetime = datetime.utcnow()
 
         # Ignore all bot messages and stop their propagation
-        self.add_handler(MessageHandler(self.ignore_message, filters.bot))
+        self.add_handler(MessageHandler(
+            self.ignore_message, filters.bot | filters.me))
         self.add_handler(MessageHandler(
             self.logger, filters.chat(Imneversorry.whitelist)), -1)
 

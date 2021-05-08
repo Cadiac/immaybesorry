@@ -51,6 +51,19 @@ def remove_rip(client: Client, chat_id: int, type: str, rip: str):
         db.del_rip(type, rip)
 
 
+# For users `file_id`s expire after 24 hours(?), so we need to read the original
+# message to get fresh `file_id` before using it to send media
+def find_file_id_from_message(client: Client, chat_id: int, type: str, message_id: int):
+    if message_id is None:
+        return None
+
+    orig_message = client.get_messages(
+        chat_id=chat_id, message_ids=message_id, replies=0)
+    file_id = getattr(orig_message, type).file_id
+
+    return file_id
+
+
 @Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.command("newrip") & filters.text)
 def newrip_handler(client: Client, message: Message):
     user_id = message.from_user.id
@@ -160,15 +173,30 @@ def rip_handler(client: Client, message: Message):
 
     if type == "text":
         client.send_message(chat_id=chat_id, text=f"rip in {rip}")
-    elif type == "photo":
-        file_id = rip
+        return
+    elif type == "location":
+        loc = rip.split(',')
+        client.send_message(chat_id=chat_id, text="rip in")
+        client.send_location(chat_id=chat_id, longitude=float(
+            loc[0]), latitude=float(loc[1]))
+        return
+    elif type == "sticker":
+        client.send_message(chat_id=chat_id, text="rip in")
+        client.send_sticker(chat_id=chat_id, sticker=rip)
+        return
 
-        if message_id is not None:
-            orig_message = client.get_messages(
-                chat_id=chat_id, message_ids=message_id, replies=0)
-            file_id = orig_message.photo.file_id
+    # Rest of the message types require us to find fresh file_id for sending
+    # unless they are old rips that need to be seen through imneversorrybot
+    # gateway.
+    if message_id is None:
+        # TODO: implement gateway, fetch up to date file_id from old bot
+        logger.error("message_id was None, gateway not implemented")
+        return
+    else:
+        rip = find_file_id_from_message(client, chat_id, type, message_id)
 
-        client.send_photo(chat_id=chat_id, photo=file_id, caption="rip in")
+    if type == "photo":
+        client.send_photo(chat_id=chat_id, photo=rip, caption="rip in")
     elif type == "voice":
         client.send_voice(chat_id=chat_id, voice=rip, caption='rip in')
     elif type == "video":
@@ -178,18 +206,9 @@ def rip_handler(client: Client, message: Message):
     elif type == "document":
         client.send_document(chat_id=chat_id, document=rip, caption='rip in')
     elif type == "animation":
-        client.send_animation(
-            chat_id=chat_id, animation=rip, caption='rip in')
-    elif type == "location":
-        loc = rip.split(',')
-        client.send_message(chat_id=chat_id, text="rip in")
-        client.send_location(chat_id=chat_id, longitude=float(
-            loc[0]), latitude=float(loc[1]))
-    elif type == "sticker":
-        client.send_message(chat_id=chat_id, text="rip in")
-        client.send_sticker(chat_id=chat_id, sticker=rip)
+        client.send_animation(chat_id=chat_id, animation=rip, caption='rip in')
     elif type == "video_note":
         client.send_message(chat_id=chat_id, text="rip in")
         client.send_video_note(chat_id=chat_id, video_note=rip)
     else:
-        print(f"[ERROR]: riptype {type} not supported, pls fix")
+        logger.error("riptype {type} not supported, pls fix")
