@@ -52,15 +52,13 @@ def read_rips():
 def read_viisaudet():
     with cursor() as cur:
         cur.execute('SELECT viisaus from Viisaus')
-        rows = cur.fetchall()
-        return set(rows)
+        return cur.fetchall()
 
 
 def read_sanat():
     with cursor() as cur:
         cur.execute('SELECT sana from Sana')
-        rows = cur.fetchall()
-        return set(rows)
+        return cur.fetchall()
 
 
 def upsert_oppi(keyword, definition, channel, creator):
@@ -108,8 +106,7 @@ def count_opis(channel):
     with cursor() as cur:
         cur.execute(
             'SELECT COUNT(*) AS count FROM Oppi WHERE channel=?', (channel,))
-        count = cur.fetchone()
-        return count
+        return cur.fetchone()
 
 
 def random_oppi(channel):
@@ -117,6 +114,13 @@ def random_oppi(channel):
         cur.execute(
             'SELECT keyword, definition FROM Oppi WHERE channel=? ORDER BY RANDOM() LIMIT 1', (channel,))
         return cur.fetchone()
+
+
+def opis_with_same_definition(channel, definition):
+    with cursor() as cur:
+        cur.execute(
+            'SELECT keyword, definition FROM Oppi WHERE channel=? AND upper(definition) = upper(?)', (channel, definition))
+        return cur.fetchall()
 
 
 def insert_quote(quote, quotee, channel, creator):
@@ -138,103 +142,101 @@ def find_quotes(channel, quotee=None):
             return cur.fetchall()
 
 
-def count_quotes(channel):
+def count_quotes(channel, quotee=None):
     with cursor() as cur:
-        cur.execute(
-            'SELECT count(quote) FROM Quote WHERE channel=?', (channel,))
-        return cur.fetchone()[0]
+        if quotee is not None:
+            cur.execute(
+                'SELECT count(quote) FROM Quote WHERE channel=? AND upper(quotee) = upper(?)', (channel, quotee))
+            return cur.fetchone()[0]
+        else:
+            cur.execute(
+                'SELECT count(quote) FROM Quote WHERE channel=?', (channel,))
+            return cur.fetchone()[0]
+
+
+def random_quote(channel, quotee=None):
+    with cursor() as cur:
+        if quotee is not None:
+            cur.execute(
+                'SELECT quote, quotee FROM Quote WHERE channel=? AND upper(quotee) = upper(?) ORDER BY RANDOM() LIMIT 1', (channel, quotee))
+            return cur.fetchone()
+        else:
+            cur.execute(
+                'SELECT quote, quotee FROM Quote WHERE channel=? ORDER BY RANDOM() LIMIT 1', (channel,))
+            return cur.fetchone()
 
 
 def read_diagnoosit():
     with cursor() as cur:
         cur.execute('SELECT diagnoosi from Diagnoosi')
-        rows = cur.fetchall()
-        return set(rows)
+        return cur.fetchall()
 
 
 def read_maidot():
     with cursor() as cur:
         cur.execute('SELECT maito from Maito')
-        rows = cur.fetchall()
-        return set(rows)
+        return cur.fetchall()
 
 
 def read_nimet():
     with cursor() as cur:
         cur.execute('SELECT nimi from Nimi')
-        rows = cur.fetchall()
-        return set(rows)
+        return cur.fetchall()
 
 
 def read_kalat():
     with cursor() as cur:
         cur.execute('SELECT kala from Kalat')
-        rows = cur.fetchall()
-        return set(rows)
+        return cur.fetchall()
 
 
 def read_vihanneet():
     with cursor() as cur:
         cur.execute('SELECT nimi from Vihannes')
-        rows = cur.fetchall()
-        return set(rows)
+        return cur.fetchall()
 
 
 def read_planetoidit():
     with cursor() as cur:
         cur.execute('SELECT nimi from Planetoidi')
-        rows = cur.fetchall()
-        return set(rows)
+        return cur.fetchall()
 
 
 def read_kulkuneuvot():
     with cursor() as cur:
         cur.execute('SELECT nimi from Kulkuneuvo')
-        rows = cur.fetchall()
-        return set(rows)
+        return cur.fetchall()
 
 
 def read_linnut():
     with cursor() as cur:
         cur.execute('SELECT nimi from Linnut')
-        rows = cur.fetchall()
-        return set(rows)
+        return cur.fetchall()
 
 
 def read_sotilasarvot():
     with cursor() as cur:
         cur.execute('SELECT nimi from Arvonimet')
-        rows = cur.fetchall()
-        return set(rows)
+        return cur.fetchall()
 
 
 def read_sotilasnimet():
     with cursor() as cur:
         cur.execute('SELECT nimi from Sotilasnimet')
-        rows = cur.fetchall()
-        return set(rows)
+        return cur.fetchall()
 
 
 def read_ennustukset():
     with cursor() as cur:
         cur.execute('SELECT rivi from Ennustus')
-        rows = cur.fetchall()
-        return set(rows)
+        return cur.fetchall()
 
 
 def read_nakutukset():
     with cursor() as cur:
         cur.execute('SELECT nakutus from Nakutukset')
         rows = cur.fetchall()
-        return set(rows)
-
-
-def read_definitions(channel):
-    with cursor() as cur:
-        cur.execute(
-            'SELECT definition, keyword from Oppi where channel=?', (channel, ))
-        rows = cur.fetchall()
-        return rows
+        return list(rows)
 
 
 def upsert_tag(tag, target, channel, creator):
@@ -248,16 +250,14 @@ def find_tagged(tag, channel):
     with cursor() as cur:
         cur.execute(
             'SELECT target FROM Tagit WHERE tag=? and channel=?', (tag, channel))
-        rows = cur.fetchall()
-        return rows
+        return cur.fetchall()
 
 
 def find_target_tags(target, channel):
     with cursor() as cur:
         cur.execute(
             'SELECT tag FROM Tagit WHERE upper(target) = upper(?) and channel=?', (target, channel))
-        rows = cur.fetchall()
-        return rows
+        return cur.fetchall()
 
 
 def add_urheilu(uid, chatid, km, lajinnimi, date):

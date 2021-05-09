@@ -1,6 +1,9 @@
 import sqlite3 as sq
+import logging
 
-print("[INFO]: Starting to seed database.")
+logger = logging.getLogger('imneversorry')
+
+logger.info("Starting to seed database.")
 
 conn = sq.connect('bot.db')
 c = conn.cursor()
@@ -105,4 +108,4 @@ fs.close()
 
 conn.commit()
 
-print("[INFO]: Done, database seeded!")
+logger.info("Done, database seeded!")

@@ -15,7 +15,7 @@ def neuroverkko_handler(client: Client, message: Message):
         chat_id=message.chat.id,
         text=((lambda _, __: _(_, __))(
             lambda _, __: chr(__ % 256) + _(_, __ // 256) if __ else "",
-            random.sample([3041605, 779117898, 17466, 272452313416, 7022364615740061032, 2360793474633670572049331836447094], 1)[0]))
+            random.choice([3041605, 779117898, 17466, 272452313416, 7022364615740061032, 2360793474633670572049331836447094])))
     )
 
 
@@ -31,8 +31,3 @@ def ebin_handler(client: Client, message: Message):
     chat_id = message.chat.id
     jebin = "j" + re.search(r"\beb\S*", message.text).group(0)
     client.send_message(chat_id=chat_id, text=jebin)
-
-
-@Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.bot)
-def bot_handler(client: Client, message: Message):
-    print("saw bot message")

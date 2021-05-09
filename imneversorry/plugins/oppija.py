@@ -9,15 +9,6 @@ from ..imneversorry import Imneversorry
 from ..utils import db
 
 
-def oppis_with_same_text(definitions, text):
-    sameDefs = []
-    for defin in definitions:
-        if defin[0].lower() == text.lower():
-            sameDefs.append(defin[1].lower())
-    result = (text, sameDefs)
-    return result
-
-
 def invert_string_list(list):
     # Reference table for the Unicode chars: http://www.upsidedowntext.com/unicode
     chars_standard = "abcdefghijklmnopqrstuvwxyzåäö"
@@ -113,11 +104,13 @@ def random_opi_handler(client: Client, message: Message):
     if (inverted):
         opi = db.random_oppi(chat_id)
         inverted_opi = invert_string_list(opi)
-        client.send_message(
-            chat_id=chat_id, text=f"{inverted_opi[1]} :{inverted_opi[0]}")
+        if inverted_opi is not None:
+            client.send_message(
+                chat_id=chat_id, text=f"{inverted_opi[1]} :{inverted_opi[0]}")
     else:
         opi = db.random_oppi(chat_id)
-        client.send_message(chat_id=chat_id, text=f"{opi[0]}: {opi[1]}")
+        if opi is not None:
+            client.send_message(chat_id=chat_id, text=f"{opi[0]}: {opi[1]}")
 
 
 @Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.text & filters.command("jokotai"))
@@ -146,16 +139,15 @@ def alias_handler(client: Client, message: Message):
         correct_oppi[chat_id] = None
 
     if correct_oppi[chat_id] is None:
-        definitions = db.read_definitions(chat_id)
+        correct = db.random_oppi(chat_id)
+        correct_oppi[chat_id] = db.opis_with_same_definition(
+            chat_id, correct[1])
 
-        correct = random.choice(definitions)
-        correct_oppi[chat_id] = oppis_with_same_text(definitions, correct[0])
-
-        message = "Arvaa mikä oppi: \"{}\"?".format(correct_oppi[chat_id][0])
+        message = "Arvaa mikä oppi: \"{}\"?".format(correct_oppi[chat_id][1])
         client.send_message(chat_id=chat_id, text=message)
     else:
         client.send_message(chat_id=chat_id,
-                            text="Edellinen alias on vielä käynnissä! Selitys oli: \"{}\"?".format(correct_oppi[chat_id][0]))
+                            text="Edellinen alias on vielä käynnissä! Selitys oli: \"{}\"?".format(correct_oppi[chat_id][1]))
 
 
 @Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.text & filters.command("arvaa"))
@@ -166,7 +158,7 @@ def arvaa_handler(client: Client, message: Message):
     if len(message.command) != 2:
         return
     elif correct_oppi[chat_id] is not None:
-        if message.command[1].lower() in correct_oppi[chat_id][1]:
+        if message.command[1].lower() in correct_oppi[chat_id][0]:
             correct_oppi[chat_id] = None
             client.send_sticker(
                 chat_id=chat_id, sticker=Imneversorry.STICKERS["onnea"])

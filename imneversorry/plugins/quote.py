@@ -27,27 +27,22 @@ def quotes_count_handler(client: Client, message: Message):
         count = db.count_quotes(chat_id)
     else:
         quotee = message.command[1].strip('@')
-        quotes = db.find_quotes(chat_id, quotee)
-        # TODO: Wtf fix the SQL to return count, not all quotes...
-        count = len(quotes)
+        count = db.count_quotes(chat_id, quotee)
 
-    client.send_message(chat_id=chat_id, text=str(count) + ' quotes')
+    client.send_message(chat_id=chat_id, text=f"{count} quotes")
 
 
 @Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.text & filters.command("quote"))
 def user_quote_handler(client: Client, message: Message):
     chat_id = message.chat.id
     if len(message.command) == 1:
-        quotes = db.find_quotes(chat_id)
+        quote = db.random_quote(chat_id)
     else:
         quotee = message.command[1].strip('@')
-        quotes = db.find_quotes(chat_id, quotee)
+        quote = db.random_quote(chat_id, quotee)
 
-    if len(quotes) == 0:
+    if quote is None:
         return
-
-    # TODO: Wtf also query for random quote at db, don't load them all
-    quote = random.sample(quotes, 1)[0]
 
     formated_quote = '"{}" - {}'.format(*quote)
     client.send_message(chat_id=chat_id, text=formated_quote)

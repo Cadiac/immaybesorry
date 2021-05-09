@@ -67,7 +67,7 @@ You can have up to 10 different active sessions. The active sessions are listed 
 - [ ] Inline /opi search
 - [ ] Keep track of users on channels
 - [ ] Avoid querying tons of users at kilometri.py /pisteet
-- [ ] Refactor database usage at quote.py
+- [x] Refactor database usage at quote.py
 - [ ] TEK/TUNI handler better regex match
 - [ ] mainari.py
 

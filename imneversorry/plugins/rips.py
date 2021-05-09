@@ -169,7 +169,7 @@ def rip_handler(client: Client, message: Message):
         client.send_message(chat_id=chat_id, text="rip in pepperoni")
         return
 
-    ((type, rip), message_id) = random.sample(rips[chat_id].items(), 1)[0]
+    ((type, rip), message_id) = random.choice(list(rips[chat_id].items()))
 
     if type == "text":
         client.send_message(chat_id=chat_id, text=f"rip in {rip}")
