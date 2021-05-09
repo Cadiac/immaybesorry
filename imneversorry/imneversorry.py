@@ -45,7 +45,7 @@ class Imneversorry(Client):
         await super().start()
         me = await self.get_me()
         logger.info(
-            f"Imneversorry using Pyrogram v{__version__} (Layer {layer}) started on @{me.username}. hyy-vä")
+            f"Imneversorry using Pyrogram v{__version__} (Layer {layer}, DC {me.dc_id}) started on @{me.username}. hyy-vä")
         self.set_parse_mode("markdown")
 
     async def stop(self, *args):

@@ -11,6 +11,7 @@ $ cp .env.sample .env
 $ source .env
 
 $ python -m venv immaybesorry
+$ source immaybesorry/bin/activate
 $ pip install -r requirements.txt
 $ sqlite3 bot.db < sql/00-init.sql
 
@@ -19,6 +20,8 @@ $ python scripts/seed.py
 
 $ python -m imneversorry
 ```
+
+Once done, you can run `deactivate` to clear the `venv`.
 
 [Environment variables](https://devcenter.heroku.com/articles/node-best-practices#be-environmentally-aware) are used to configure this bot.
 Make a copy of the `.env.sample` file as `.env` and fill in the blanks.
@@ -59,8 +62,11 @@ You can have up to 10 different active sessions. The active sessions are listed 
 - [x] Creating session on server
 - [x] ebin
 - [x] better migration scripts
-- [ ] newrip stale file_ids
+- [x] rip stale file_ids
+- [ ] rip old rips gateway
 - [ ] Inline /opi search
+- [ ] Keep track of users on channels
+- [ ] Avoid querying tons of users at kilometri.py /pisteet
 - [ ] Refactor database usage at quote.py
 - [ ] TEK/TUNI handler better regex match
 - [ ] mainari.py

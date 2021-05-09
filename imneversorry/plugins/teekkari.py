@@ -6,11 +6,11 @@ import time
 import datetime
 import json
 import hashlib
-import emoji
 import itertools
+import inspect
 
 from emoji import unicode_codes
-from pyrogram import Client, filters
+from pyrogram import Client, filters, emoji
 from pyrogram.types import Message
 from ..utils import db
 from ..imneversorry import Imneversorry
@@ -38,6 +38,10 @@ sotilasarvot = db.read_sotilasarvot()
 sotilasnimet = db.read_sotilasnimet()
 ennustukset = db.read_ennustukset()
 nakutukset = db.read_nakutukset()
+
+emojis = list(
+    filter(lambda m: not m[0].startswith("__"),
+           inspect.getmembers(emoji, lambda m: type(m) is str)))
 
 last_vitun = {}
 last_pottiin = {}
@@ -208,7 +212,6 @@ def TUNI_handler(client: Client, message: Message):
                 return
 
 
-# TODO: emojis broken? use pyrogram.emoji?
 @Imneversorry.on_message(filters.chat(Imneversorry.whitelist) & filters.regex("horoskoop", re.IGNORECASE))
 def horoskooppi_handler(client: Client, message: Message):
     now = datetime.datetime.now()
@@ -222,22 +225,20 @@ def horoskooppi_handler(client: Client, message: Message):
         data, sort_keys=True).encode('utf-8')).hexdigest()
     rigged = random.Random(seed)
     ennustus = ""
+
     n = rigged.randint(0, 2)
     for _ in itertools.repeat(None, n):
-        r = rigged.choice(tuple(unicode_codes.EMOJI_UNICODE))
-        ennustus += emoji.emojize(r)
+        ennustus += rigged.choice(emojis)[1]
     n = rigged.randint(1, 4)
     for _ in itertools.repeat(None, n):
         ennustus += rigged.sample(ennustukset, 1)[0][0]+". "
         m = rigged.randint(0, 2)
         for _ in itertools.repeat(None, m):
-            r = rigged.choice(tuple(unicode_codes.EMOJI_UNICODE))
-            ennustus += emoji.emojize(r)
+            ennustus += rigged.choice(emojis)[1]
     ennustus = ennustus.replace('?.', '.')
     n = rigged.randint(1, 3)
     for _ in itertools.repeat(None, n):
-        r = rigged.choice(tuple(unicode_codes.EMOJI_UNICODE))
-        ennustus += emoji.emojize(r)
+        ennustus += rigged.choice(emojis)[1]
     client.send_message(chat_id=message.chat.id, text=ennustus)
 
 
